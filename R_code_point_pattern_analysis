@@ -1,0 +1,27 @@
+# Point Pattern Analysis: Density map
+
+#Codici per analisi dei patterns
+
+setwd("C:/Lab")
+
+#importare dati
+covid <- read.table("covid_agg.csv", head=T)
+
+install.apackages("spatstat")
+library("spatstat")
+
+#density
+#create dataset for spatstat, c per i vettori/range in questo caso della long e lat
+
+attach(covids) #in modo da allegare il nostro dataset con anche lon e lat
+covids <- ppp(lon, lat, c(-180,180), c(-90,90))
+
+#how attacching without attach(covid) set
+#covids <- ppp(covid$lon, covid$lat,c(-180,180), c(-90,90))
+
+d <- density(covids)
+
+plot(d)
+
+#per vedere i punti sulla mappa
+points(covids)
