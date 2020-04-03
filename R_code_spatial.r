@@ -40,3 +40,44 @@ attach(covid)
 plot(country,cases) #plot(covid$cases,covid$cases) se non vuoi fare attach 
 
 #use ggplot
+install.packages ("devtools")
+devtools::install_github("tidydiverse/ggplot2")
+
+#save the R.DATA under the menu File
+
+#load previously saved .RData
+#function load("name.RData")
+load("C:/Lab/spatial.RData")
+
+#ls() funzione per guardare il contenuto
+ls()
+
+#if you search about ggplot 2.0
+#data
+#est
+#tgeometry
+
+#before call ggplot
+library(ggplot2)
+
+#in ggplot there is a dataset call mpg dataframe
+data(mpg)
+head(mpg)
+
+#key component: data,aes,geometry (ricordati le parentesi per ogni funzione)
+ggplot(mpg, aes(x=displ,y=hwy)) + geom_point()
+
+#cambiare da punti a line or polygon
+ggplot(mpg, aes(x=displ,y=hwy)) + geom_line()
+
+ggplot(mpg, aes(x=displ,y=hwy)) + geom_polygon()
+
+#how to make a ggplot for covid data
+head(covid)
+ggplot(covid, aes(x=lon,y=lat), size=cases) + geom_point()
+
+#now we go on point patterns analysis. (from in situ data)
+
+
+       
+       
