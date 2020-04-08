@@ -25,3 +25,55 @@ plot(d)
 
 #per vedere i punti sulla mappa
 points(covids)
+
+#----next lesson
+
+install.packages("rgdal")
+
+setwd("C:/Lab")
+load("covid.RData")
+
+ls()
+
+#covids: point pattern
+#d: density map
+
+library("spatstat")
+library("rgdal")
+
+plot(d)
+points(covids) #for see the points on the plot
+
+#let's input vector lines (x0y0,x1y2,x2,y2..)
+#remember OGR is case sensitive)
+coastlines <- readOGR("ne_10m_coastline.shp")
+
+#now it's possible to plot the coastlines and we need to "ADD" another variable)
+plot(d)
+points(covids)
+plot(coastlines, add=T)
+
+#cl <- colorRampPalette(c('yellow','orange','red'))(100)
+#cluster of color in the first side and the second argoument is the range of the color
+cl <- colorRampPalette(c("yellow","orange","red")) (100)
+
+#col for change the color, and cl is our palette
+plot(d, col=cl)
+points(covids)
+plot(coastlines, add=T)
+
+#Exercise: new colour ramp palette
+
+cl1<- colorRampPalette(c("blue", "light green","yellow","red"))(100)
+
+plot(d, col=cl1, main= "Densities of covid-19")
+points(covids)
+plot(coastlines, add=T)
+
+#how to export. Remember to copy all from cl1. And then close the device("dev.off")
+pdf("covid_density.pdf")
+cl1<- colorRampPalette(c("blue", "light green","yellow","red"))(100)
+plot(d, col=cl1, main= "Densities of covid-19")
+points(covids)
+plot(coastlines, add=T)
+dev.off()
