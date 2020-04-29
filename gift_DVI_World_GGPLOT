@@ -1,0 +1,16 @@
+library(ggplot2)
+
+ 
+
+myPalette <- colorRampPalette(c('white','green','dark green'))
+sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(1, 8))
+
+ 
+
+ggR(copNDVI, geom_raster = TRUE) +
+scale_fill_gradientn(name = "NDVI", colours = myPalette(100))+
+labs(x="Longitude",y="Latitude", fill="")+
+#   theme(legend.position = "bottom") +
+  NULL
+# +
+# ggtitle("NDVI")
