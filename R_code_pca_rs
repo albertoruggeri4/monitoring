@@ -1,0 +1,77 @@
+
+setwd("C:/lab")
+
+library(raster)
+library(RStoolbox)
+ 
+#brick we used it before, it is a function in "raster packages"
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+ 
+#remember that b1=blue b2=green b3=red b4=NIR b5=SWIR b6=thermal infrared  b7=SWIR b8=panchromatic(all band)
+#between b5 and b7 we have different wavelenght
+plotRGB(p224r63_2011, r=5, g=4, b=3, stretch="Lin")
+
+#try plo with ggplot that show also coordinates (little bit more smooth)
+library(ggplot2)
+ggRGB(p224r63_2011,5,4,3)
+
+#same operation with the other image
+p224r63_1988 <- brick("p224r63_1988_masked.grd")
+plotRGB(p224r63_1988, r=5, g=4, b=3, stretch="Lin")
+ggRGB(p224r63_1988,5,4,3)
+
+par(mfrow=c(1,2))
+plotRGB(p224r63_1988, r=5, g=4, b=3, stretch="Lin")
+plotRGB(p224r63_2011, r=5, g=4, b=3, stretch="Lin")
+
+names(p224r63_2011)
+
+dev.off() #FOR CLOSE THE PREVIOUSLY GRAPHICS
+
+plot(p224r63_2011$B1_sre, p224r63_2011$B3_sre)
+
+#decrease the resolution of the image. you can see the info of the image putting the image's name
+#we will use the aggregate function(PCA)
+plot(p224r63_2011$B1_sre, p224r63_2011$B3_sre)
+
+library(RStoolbox)
+p224r63_2011_res <- aggregate(p224r63_2011, fact=10)
+
+p224r63_2011_pca <- rasterPCA(p224r63_2011_res)
+
+cl <- colorRampPalette(c('dark grey','grey','light grey'))(100) # 
+plot(p224r63_2011_pca$map, col=cl)
+
+summary(p224r63_2011_pca$model)
+#PC1 99.83% of the whole variation
+
+#for see the correlation
+pairs(p224r63_2011)
+
+plotRGB(p224r63_2011_pca$map, r=1, g=2, b=3, stretch="Lin")
+
+
+
+p224r63_1988
+#decrease also of this image
+#aggregate-rasterPCA-plot     look the different of the resolution from the first to the last one
+p224r63_1988_res <- aggregate(p224r63_1988, fact=10)
+p224r63_1988_pca <- rasterPCA(p224r63_1988_res) 
+plot(p224r63_1988_pca$map, col=cl)
+
+# for see the variacion
+summary(p224r63_1988_pca$model)
+#PC1 95%
+pairs(p224r63_1988)
+
+
+#difference, for each px two different maps 
+difpca <- p224r63_2011_pca$map - p224r63_1988_pca$map
+#for each component the different between 2011-1988
+plot(difpca)
+
+cldif <- colorRampPalette(c('blue','black','yellow'))(100) #
+difpca #for see the names
+
+#the highest difference/variations
+plot(difpca$PC1,col=cldif)
