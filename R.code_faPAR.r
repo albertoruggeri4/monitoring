@@ -34,3 +34,28 @@ pdf("faPAR10.pdf")
 levelplot(faPAR10)
 dev.off()
 
+########################## part 2
+
+setwd("C:/Lab")
+
+load("faPAR.RDATA")
+ls()
+#the original faPAR from copernicui is 2GB, let's see how much space is needed
+
+
+library(raster)
+library(rasterdiv)
+library(rasterVis)
+
+#for see the range of the file [0-252]
+copNDVI
+
+#to write a raster in our computer
+writeRaster(copNDVI, "copNDVI.tif")
+#5.3MB
+
+#faPar levelplot -- faPAR is the fraction of the solar radiation absorbed by live leaves for the photosyntesis activity
+faPAR10 <- raster("faPAR10.tif")
+
+levelplot(faPAR10) 
+
