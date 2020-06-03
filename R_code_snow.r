@@ -74,3 +74,51 @@ predicted.snow.2025.norm <- raster("predicted.snow.2025.norm.tif")
 
 plot(predicted.snow.2025.norm, col=cl)
 
+##############       DAY 2nd       #########
+
+setwd("C:/Lab/snow")
+
+libary(raster)
+#import the snow cover images all toghether
+###   lapply   ###
+#create a list of files (function list.files -- the common pattern is snow)
+slist <- list.files(pattern="snow")
+
+slist #for see what you have in your list
+
+#con lappy che praticamente non fa altro che applicare una serie di comandi a tutti gli elementi, la funzione è raster, la lista è rlist
+import <- lapply(slist, raster)
+
+#then we will make a stack of all images (raster stack), different layer all togethere
+snow.multitemp <- stack(import)
+
+cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
+
+#now we can simply plot the snow multitemp
+plot(snow.multitemp, col=cl)
+
+#load the snow cover 1km -- predict = snow in Y and data in X and create a tendece (this is the idea behind the predicttion)
+prediction <- raster("predicted.2025.norm.tif")
+plot(prediction, col=cl)
+
+
+#writeraster outside R and ready to be sent
+writeRaster (prediction, " final.tif")
+
+#final stack (all the images)
+final.stack <- stack(snow.multitemp, prediction)
+plot(final.stack, col=cl)
+
+#export
+writeRaster(final.stack, "final_stack.tif")
+
+#export in pdf
+pdf("final_graph.pdf")
+#then what you want in the pdf
+plot(final.stack, col=cl)
+dev.off()
+
+#export in png
+png("final_graph_1.png")
+plot(final.stack, col=cl)
+dev.off()
