@@ -1,0 +1,29 @@
+#crop an image
+
+setwd("C:/Lab")
+
+library(raster)
+library(ncdf4) #because we work with copernicus images
+
+snow <- raster('c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc')
+
+cl <- colorRampPalette(c('darkblue','blue','lightblue'))(100)
+plot(snow, col=cl)
+
+#now we can zoom or crop
+#we want that our extention is from 0 - 20 (long) and from 35- 50 (lat)
+
+ext <- c(0,20,35,50)
+
+#now we can use the function zoom(object, ext)
+zoom(snow, ext=ext)
+
+
+#crop function and create a new image
+snowitaly <- crop(snow, ext)
+plot(snowitaly, col=cl)
+
+
+#try to make it manually with drawExtent    (in the IOL site there is the R_code_crop_zoom)
+zoom(snow, ext=drawExtent())
+
