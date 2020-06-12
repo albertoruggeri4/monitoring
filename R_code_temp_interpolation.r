@@ -57,3 +57,33 @@ points(inppp)
 #final plot (original name)
 plot(Canopy.cov, cop.lich.mean, col="red", pch=19, cex=2)
 #spatial correlation
+
+
+
+
+
+
+####### 2nd Part #######
+# DUNE SPECIES -- PSAMMOPHILOUS VEGETATION
+
+inp.psam <- read.table("dati_psammofile.csv", sep=';' , head=T)
+
+attach(inp.psam)
+
+#Organic carbon (C_org) in the soil - 
+head(inp.psam)
+
+plot(E,N)
+#how we seen in the different point patterns, this is a clumped dispersion!
+summary(inp.psam) #min and max
+inp.psam.ppp <- ppp(x=E,y=N,c(356450,372240),c(5059800,5064150))
+
+#explain which type of variables we are going to use
+marks(inp.psam.ppp) <- C_org
+
+#we estimate values where there were not values
+C <- Smooth(inp.psam.ppp)
+
+plot(C)
+points(inp.psam.ppp)
+
