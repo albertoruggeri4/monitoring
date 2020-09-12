@@ -1,0 +1,52 @@
+
+setwd("C:/Lab/lake")
+
+
+library(raster) # raster
+library(ncdf4) # .nc
+library(rgdal) # geospatial data - vector, raster, proj
+library(ggplot2) #grafici
+library(spatstat) #Spatial Point Pattern Analysis
+
+
+lake1 <- raster("c_gls_LWQ1km_201605010000_GLOBE_OLCI_V1.2.nc")
+lake2 <- raster("c_gls_LWQ1km_201808210000_GLOBE_OLCI_V1.2.nc")
+
+XXXXXX
+library(rjson)
+result <- fromJSON(file = "c_gls_WL_202009041245_CASPIAN_ALTI_V2.1.0.json")
+# Convert JSON file to a data frame.
+json_data_frame <- as.data.frame(result)
+
+print(json_data_frame)
+XXXXXXXXXXXX
+
+
+LC <- raster("c_gls_LSWT_202008210000_GLOBE_SLSTRAB_v1.1.0.nc")
+
+LC1 <- raster("c_gls_LSWT_201708210000_GLOBE_SLSTRA_v1.0.2.nc")
+
+ext <- c(45,56, 35,48)
+LC_c <- crop(LC,ext)
+
+LC_c1 <- crop(LC1,ext)
+
+par(mfrow=c(1,2))
+plot(LC_c)
+plot(coastlines,add=T)
+plot(LC_c1)
+plot(coastlines,add=T)
+
+cld <- colorRampPalette(c("beige","lemonchiffon1","tan2", "orange","orange3","orangered3","red","orangered4","red4")) (100)
+
+ext <- c(45,56, 35,48)
+MM <- crop(lake1, ext)
+MM18 <- crop(lake2, ext)
+
+par(mfrow=c(1,2))
+plot(MM,col=cld)
+plot(coastlines,add=T)
+
+plot(MM18,col=cld)
+plot(coastlines,add=T)
+
