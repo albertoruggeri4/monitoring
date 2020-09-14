@@ -21,6 +21,15 @@ json_data_frame <- as.data.frame(result)
 print(json_data_frame)
 XXXXXXXXXXXX
 
+#####
+ESTENSIONI:
+
+Mar Caspio --- ext <- c(45,56, 35,48)
+
+
+Italia --- ext <- c(5,25, 35,45)
+
+####
 
 LC <- raster("c_gls_LSWT_202008210000_GLOBE_SLSTRAB_v1.1.0.nc")
 
@@ -30,6 +39,8 @@ ext <- c(45,56, 35,48)
 LC_c <- crop(LC,ext)
 
 LC_c1 <- crop(LC1,ext)
+
+coastlines <- readOGR("ne_10m_coastline.shp")
 
 par(mfrow=c(1,2))
 plot(LC_c)
@@ -50,3 +61,55 @@ plot(coastlines,add=T)
 plot(MM18,col=cld)
 plot(coastlines,add=T)
 
+#YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+
+#LWQ
+
+LWQ17 <- raster("c_gls_LWQ1km_201708210000_GLOBE_OLCI_V1.2.nc")
+LWQ16 <- raster("c_gls_LWQ1km_201611110000_GLOBE_OLCI_V1.2.nc")
+
+extIT <- c(5,25, 35,45)
+
+
+lwq17 <- crop(LWQ17, ext)
+lwq16 <- crop(LWQ16, ext)
+
+par(mfrow=c(1,2))
+plot(lwq17)
+plot(coastlines,add=T)
+plot(lwq16)
+plot(coastlines,add=T)
+
+## LIE
+
+LIE2020 <- raster ("c_gls_LIE250_202003140000_Baltic_MODIS_V1.1.1.nc")
+LIE2017 <- raster ("c_gls_LIE250_201703140000_Baltic_MODIS_V1.0.1.nc")
+
+lie20 <- crop(LIE2020, extIT)
+lie17 <- crop(LIE2017, extIT)
+
+par(mfrow=c(1,2))
+plot(lie20)
+plot(coastlines, add=T)
+plot(lie17)
+plot(coastlines, add=T)
+
+###LSWT 
+
+WT2020 <- raster ("c_gls_LSWT_202008210000_GLOBE_SLSTRAB_v1.1.0.nc")
+WT2017 <- raster("c_gls_LSWT_201708210000_GLOBE_SLSTRA_v1.0.2.nc")
+
+wt20 <- crop(WT2020,extIT)
+wt17 <- crop(WT2017,extIT)
+wtM20 <- crop(WT2020,ext)
+wtM17 <- crop(WT2017,ext)
+
+par(mfrow=c(2,2))
+plot(wt17)
+plot(coastlines, add=T)
+plot(wt20)
+plot(coastlines, add=T)
+plot(wtM17)
+plot(coastlines, add=T)
+plot(wtM20)
+plot(coastlines, add=T)
